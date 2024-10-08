@@ -1,5 +1,6 @@
 package br.com.emanueldias.CompreVenda.produto.model;
 
+import br.com.emanueldias.CompreVenda.pedido.model.Pedido;
 import br.com.emanueldias.CompreVenda.produto.dto.ProdutoRequestDTO;
 import br.com.emanueldias.CompreVenda.produto.dto.ProdutoUpdateDTO;
 import jakarta.persistence.*;
@@ -13,7 +14,7 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "tab_produtos")
+@Table(name = "tab_produto")
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -37,6 +38,10 @@ public class Produto {
 
     @NotNull
     private BigDecimal preco;
+
+    @ManyToOne
+    @JoinColumn(name = "pedido_id")
+    private Pedido pedido;
 
 
     public Produto(ProdutoRequestDTO dto) {
