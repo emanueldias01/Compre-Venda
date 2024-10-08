@@ -1,5 +1,6 @@
 package br.com.emanueldias.CompreVenda.pagamento.model;
 
+import br.com.emanueldias.CompreVenda.pagamento.dto.PagamentoRequestDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -39,4 +40,17 @@ public class Pagamento {
 
     @NotNull
     private Long pedidoId;
+
+    public Pagamento(PagamentoRequestDTO dto) {
+
+        this.nome = dto.getNome();
+        this.codigo = dto.getCodigo();
+        this.expiracao = LocalDate.now().plusDays(2);
+        this.status = Status.CRIADO;
+        this.pedidoId = dto.getPedidoId();
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 }
