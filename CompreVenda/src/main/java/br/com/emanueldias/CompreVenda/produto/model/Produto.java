@@ -2,8 +2,10 @@ package br.com.emanueldias.CompreVenda.produto.model;
 
 import br.com.emanueldias.CompreVenda.pedido.model.Pedido;
 import br.com.emanueldias.CompreVenda.produto.dto.ProdutoRequestDTO;
+import br.com.emanueldias.CompreVenda.produto.dto.ProdutoResponseDTO;
 import br.com.emanueldias.CompreVenda.produto.dto.ProdutoUpdateDTO;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -33,14 +35,13 @@ public class Produto {
     private String descricao;
 
     @NotNull
-    @Size(min = 1)
+    @Min(1)
     private Integer quantidade;
 
     @NotNull
     private BigDecimal preco;
 
     @ManyToOne
-    @JoinColumn(name = "pedido_id")
     private Pedido pedido;
 
 
@@ -59,7 +60,15 @@ public class Produto {
         this.preco = dto.getPreco();
     }
 
-    public void updateInfo(ProdutoRequestDTO dto) {
+    public Produto(ProdutoResponseDTO dto) {
+        this.id = dto.getId();
+        this.nome = dto.getNome();
+        this.preco = dto.getPreco();
+        this.quantidade = dto.getQuantidade();
+        this.descricao = dto.getDescricao();
+    }
+
+    public void updateInfo(ProdutoUpdateDTO dto) {
         if(dto.getNome() != null){
             this.nome = dto.getNome();
         }

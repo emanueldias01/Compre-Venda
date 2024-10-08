@@ -26,7 +26,7 @@ public class Pagamento {
     @NotNull
     private BigDecimal valor;
 
-    @NotNull
+    @NotBlank
     private String nome;
 
     @NotBlank
@@ -45,6 +45,7 @@ public class Pagamento {
 
         this.nome = dto.getNome();
         this.codigo = dto.getCodigo();
+        this.valor = dto.getValor();
         this.expiracao = LocalDate.now().plusDays(2);
         this.status = Status.CRIADO;
         this.pedidoId = dto.getPedidoId();

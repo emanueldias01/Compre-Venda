@@ -20,7 +20,7 @@ public class ProdutoService {
         return produtoRepository.findAll().stream().map(ProdutoResponseDTO::new).toList();
     }
 
-    public ProdutoResponseDTO create(ProdutoRequestDTO dto){
+    public ProdutoResponseDTO update(ProdutoUpdateDTO dto){
         Produto produto = produtoRepository.getReferenceById(dto.getId());
         produto.updateInfo(dto);
         produtoRepository.save(produto);
@@ -28,7 +28,7 @@ public class ProdutoService {
         return new ProdutoResponseDTO(produto);
     }
 
-    public ProdutoResponseDTO update(ProdutoUpdateDTO dto){
+    public ProdutoResponseDTO create(ProdutoRequestDTO dto){
         Produto produto = new Produto(dto);
         produtoRepository.save(produto);
 

@@ -25,6 +25,12 @@ public class PagamentoResponseDTO {
     private Long pedidoId;
 
     public PagamentoResponseDTO(Pagamento pagamento){
-
+        this.id = pagamento.getId();
+        this.valor = pagamento.getValor();
+        this.codigo = pagamento.getCodigo();
+        this.nome = pagamento.getNome();
+        this.expiracao = pagamento.getExpiracao();
+        this.status = pagamento.getStatus();
+        this.pedidoId = pagamento.getPedidoId();
     }
 }

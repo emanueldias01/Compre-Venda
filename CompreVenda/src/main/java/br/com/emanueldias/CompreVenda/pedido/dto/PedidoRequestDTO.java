@@ -1,6 +1,7 @@
 package br.com.emanueldias.CompreVenda.pedido.dto;
 
 import br.com.emanueldias.CompreVenda.pedido.model.Status;
+import br.com.emanueldias.CompreVenda.produto.dto.ProdutoResponseDTO;
 import br.com.emanueldias.CompreVenda.produto.model.Produto;
 import lombok.Getter;
 
@@ -13,5 +14,5 @@ public class PedidoRequestDTO {
 
     private String nome;
 
-    private List<Produto> itens = new ArrayList<>();
+    private List<ProdutoResponseDTO> itens = new ArrayList<>();
 }

@@ -5,8 +5,8 @@ import br.com.emanueldias.CompreVenda.pedido.dto.PedidoResponseDTO;
 import br.com.emanueldias.CompreVenda.pedido.model.Pedido;
 import br.com.emanueldias.CompreVenda.pedido.model.Status;
 import br.com.emanueldias.CompreVenda.pedido.repository.PedidoRepository;
+import br.com.emanueldias.CompreVenda.produto.dto.ProdutoResponseDTO;
 import br.com.emanueldias.CompreVenda.produto.model.Produto;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,22 +24,18 @@ public class PedidoService {
     }
 
     public PedidoResponseDTO create(PedidoRequestDTO dto){
-        dto.getItens().forEach(
-                p -> {
-                    if (pedidoRepository.findById(p.getId()).isEmpty())
-                        throw new EntityNotFoundException();
-                }
-        );
-
         Pedido pedido = new Pedido(dto);
 
         BigDecimal valor = new BigDecimal(0);
-        for (Produto item : dto.getItens()) {
-           valor = valor.add(item.getPreco());
+        for(ProdutoResponseDTO item : dto.getItens()){
+            valor = valor.add(item.getPreco());
         }
 
         pedido.setPreco(valor);
 
+        List<Produto> produtoList = dto.getItens().stream().map(Produto::new).toList();
+
+        pedido.setItens(produtoList);
         pedidoRepository.save(pedido);
 
         return new PedidoResponseDTO(pedido);
@@ -49,6 +45,8 @@ public class PedidoService {
         Pedido pedido = pedidoRepository.getReferenceById(id);
 
         pedido.setStatus(Status.CANCELADO);
+
+        pedidoRepository.save(pedido);
 
         return new PedidoResponseDTO(pedido);
     }
