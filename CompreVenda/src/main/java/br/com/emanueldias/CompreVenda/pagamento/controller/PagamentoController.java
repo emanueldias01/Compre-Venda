@@ -31,4 +31,9 @@ public class PagamentoController {
         return ResponseEntity.ok(pagamentoService.cancelaPagamento(id));
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity pagaPagamento(@PathVariable Long id){
+        return ResponseEntity.ok(pagamentoService.pagaPagamento(id));
+    }
+
 }

@@ -33,6 +33,17 @@ public class PagamentoService {
         Pagamento pagamento = pagamentoRepository.getReferenceById(id);
         pagamento.setStatus(Status.CANCELADO);
 
+        pagamentoRepository.save(pagamento);
+
+        return new PagamentoResponseDTO(pagamento);
+    }
+
+    public PagamentoResponseDTO pagaPagamento(Long id){
+        Pagamento pagamento = pagamentoRepository.getReferenceById(id);
+        pagamento.setStatus(Status.PAGO);
+
+        pagamentoRepository.save(pagamento);
+
         return new PagamentoResponseDTO(pagamento);
     }
 }

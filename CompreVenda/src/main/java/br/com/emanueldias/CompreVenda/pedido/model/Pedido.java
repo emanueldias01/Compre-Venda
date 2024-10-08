@@ -37,7 +37,7 @@ public class Pedido {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @OneToMany(cascade=CascadeType.MERGE, mappedBy="pedido")
+    @OneToMany(cascade=CascadeType.MERGE, mappedBy="pedido", fetch = FetchType.EAGER)
     private List<Produto> itens = new ArrayList<>();
 
     @NotNull
