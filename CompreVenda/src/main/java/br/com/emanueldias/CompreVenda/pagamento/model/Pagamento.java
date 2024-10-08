@@ -25,6 +25,9 @@ public class Pagamento {
     @NotNull
     private BigDecimal valor;
 
+    @NotNull
+    private String nome;
+
     @NotBlank
     @Size(min = 3)
     private String codigo;

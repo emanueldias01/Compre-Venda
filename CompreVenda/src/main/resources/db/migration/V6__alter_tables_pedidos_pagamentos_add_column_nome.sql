@@ -1,0 +1,5 @@
+ALTER TABLE tab_pedidos
+ADD COLUMN nome VARCHAR(255);
+
+ALTER TABLE tab_pagamentos
+ADD COLUMN nome VARCHAR(255);
