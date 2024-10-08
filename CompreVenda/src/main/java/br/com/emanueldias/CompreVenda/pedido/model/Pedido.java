@@ -1,5 +1,6 @@
 package br.com.emanueldias.CompreVenda.pedido.model;
 
+import br.com.emanueldias.CompreVenda.pedido.dto.PedidoRequestDTO;
 import br.com.emanueldias.CompreVenda.produto.model.Produto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -27,6 +28,9 @@ public class Pedido {
     @NotNull
     private LocalDateTime dataPedido;
 
+    @NotNull
+    private String nome;
+
     @NotBlank
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -36,4 +40,19 @@ public class Pedido {
 
     @NotNull
     private BigDecimal preco;
+
+    public Pedido(PedidoRequestDTO dto) {
+        this.nome = dto.getNome();
+        this.dataPedido = LocalDateTime.now();
+        this.itens = dto.getItens();
+        this.status = Status.REALIZADO;
+    }
+
+    public void setPreco(@NotNull BigDecimal preco) {
+        this.preco = preco;
+    }
+
+    public void setStatus(@NotBlank Status status) {
+        this.status = status;
+    }
 }
