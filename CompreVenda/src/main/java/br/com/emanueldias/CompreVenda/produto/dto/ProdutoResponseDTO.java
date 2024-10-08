@@ -1,9 +1,6 @@
 package br.com.emanueldias.CompreVenda.produto.dto;
 
-import br.com.emanueldias.CompreVenda.pedido.model.Status;
 import br.com.emanueldias.CompreVenda.produto.model.Produto;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
 import java.math.BigDecimal;

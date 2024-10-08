@@ -1,7 +1,6 @@
 package br.com.emanueldias.CompreVenda.pedido.model;
 
 import br.com.emanueldias.CompreVenda.pedido.dto.PedidoRequestDTO;
-import br.com.emanueldias.CompreVenda.produto.dto.ProdutoResponseDTO;
 import br.com.emanueldias.CompreVenda.produto.model.Produto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -37,7 +36,7 @@ public class Pedido {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @OneToMany(cascade=CascadeType.MERGE, mappedBy="pedido", fetch = FetchType.EAGER)
+    @OneToMany(cascade=CascadeType.PERSIST, mappedBy="pedido", fetch = FetchType.EAGER)
     private List<Produto> itens = new ArrayList<>();
 
     @NotNull
@@ -47,6 +46,7 @@ public class Pedido {
         this.nome = dto.getNome();
         this.dataPedido = LocalDateTime.now();
         this.status = Status.REALIZADO;
+        this.itens = dto.getItens().stream().map(Produto::new).toList();
     }
 
     public void setPreco(@NotNull BigDecimal preco) {

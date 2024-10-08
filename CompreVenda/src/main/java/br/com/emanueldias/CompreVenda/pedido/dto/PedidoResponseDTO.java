@@ -2,6 +2,7 @@ package br.com.emanueldias.CompreVenda.pedido.dto;
 
 import br.com.emanueldias.CompreVenda.pedido.model.Pedido;
 import br.com.emanueldias.CompreVenda.pedido.model.Status;
+import br.com.emanueldias.CompreVenda.produto.dto.ProdutoResponseDTO;
 import br.com.emanueldias.CompreVenda.produto.model.Produto;
 import lombok.Getter;
 
@@ -20,7 +21,7 @@ public class PedidoResponseDTO {
 
     private String nome;
 
-    private List<Produto> itens = new ArrayList<>();
+    private List<ProdutoResponseDTO> itens = new ArrayList<>();
 
     private BigDecimal preco;
 
@@ -30,6 +31,7 @@ public class PedidoResponseDTO {
         this.dataPedido = pedido.getDataPedido();
         this.status = pedido.getStatus();
         this.preco = pedido.getPreco();
+        this.itens = pedido.getItens().stream().map(ProdutoResponseDTO::new).toList();
     }
 
 }

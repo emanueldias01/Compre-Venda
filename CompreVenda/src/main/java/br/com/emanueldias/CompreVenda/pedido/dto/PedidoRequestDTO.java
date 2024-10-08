@@ -1,11 +1,8 @@
 package br.com.emanueldias.CompreVenda.pedido.dto;
 
-import br.com.emanueldias.CompreVenda.pedido.model.Status;
-import br.com.emanueldias.CompreVenda.produto.dto.ProdutoResponseDTO;
-import br.com.emanueldias.CompreVenda.produto.model.Produto;
+import br.com.emanueldias.CompreVenda.produto.dto.ProdutoRequestDTO;
 import lombok.Getter;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,5 +11,5 @@ public class PedidoRequestDTO {
 
     private String nome;
 
-    private List<ProdutoResponseDTO> itens = new ArrayList<>();
+    private List<ProdutoRequestDTO> itens = new ArrayList<>();
 }
