@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,4 +33,7 @@ public class Pedido {
 
     @OneToMany(cascade=CascadeType.PERSIST, mappedBy="pedido")
     private List<Produto> itens = new ArrayList<>();
+
+    @NotNull
+    private BigDecimal preco;
 }
