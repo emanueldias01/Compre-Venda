@@ -1,5 +1,7 @@
 package br.com.emanueldias.CompreVenda.produto.model;
 
+import br.com.emanueldias.CompreVenda.produto.dto.ProdutoRequestDTO;
+import br.com.emanueldias.CompreVenda.produto.dto.ProdutoUpdateDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -37,5 +39,36 @@ public class Produto {
     private BigDecimal preco;
 
 
+    public Produto(ProdutoRequestDTO dto) {
+        this.nome = dto.getNome();
+        this.descricao = dto.getDescricao();
+        this.quantidade = dto.getQuantidade();
+        this.preco = dto.getPreco();
+    }
 
+    public Produto(ProdutoUpdateDTO dto){
+        this.id = dto.getId();
+        this.nome = dto.getNome();
+        this.descricao = dto.getDescricao();
+        this.quantidade = dto.getQuantidade();
+        this.preco = dto.getPreco();
+    }
+
+    public void updateInfo(ProdutoRequestDTO dto) {
+        if(dto.getNome() != null){
+            this.nome = dto.getNome();
+        }
+
+        if(dto.getDescricao() != null){
+            this.descricao = dto.getDescricao();
+        }
+
+        if(dto.getQuantidade() != null){
+            this.quantidade = dto.getQuantidade();
+        }
+
+        if(dto.getPreco() != null){
+            this.preco = dto.getPreco();
+        }
+    }
 }
