@@ -30,7 +30,6 @@ public class Pagamento {
     private String nome;
 
     @NotBlank
-    @Size(min = 3)
     private String codigo;
 
     private LocalDate expiracao;
@@ -44,7 +43,6 @@ public class Pagamento {
     public Pagamento(PagamentoRequestDTO dto) {
 
         this.nome = dto.getNome();
-        this.codigo = dto.getCodigo();
         this.valor = dto.getValor();
         this.expiracao = LocalDate.now().plusDays(2);
         this.status = Status.CRIADO;
@@ -53,5 +51,9 @@ public class Pagamento {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public void setCodigo(@NotBlank @Size(min = 3) String codigo) {
+        this.codigo = codigo;
     }
 }

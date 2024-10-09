@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class PagamentoService {
@@ -25,6 +26,10 @@ public class PagamentoService {
     @Transactional
     public PagamentoResponseDTO create(@RequestBody PagamentoRequestDTO dto){
         Pagamento pagamento = new Pagamento(dto);
+
+        Random random = new Random();
+        String codigo = String.valueOf(random.nextInt(100));
+        pagamento.setCodigo(codigo);
 
         pagamentoRepository.save(pagamento);
 

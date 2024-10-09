@@ -1,5 +1,7 @@
 package br.com.emanueldias.CompreVenda.pedido.service;
 
+import br.com.emanueldias.CompreVenda.pagamento.dto.PagamentoRequestDTO;
+import br.com.emanueldias.CompreVenda.pagamento.service.PagamentoService;
 import br.com.emanueldias.CompreVenda.pedido.dto.PedidoRequestDTO;
 import br.com.emanueldias.CompreVenda.pedido.dto.PedidoResponseDTO;
 import br.com.emanueldias.CompreVenda.pedido.model.Pedido;
@@ -12,12 +14,16 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class PedidoService {
 
     @Autowired
     PedidoRepository pedidoRepository;
+
+    @Autowired
+    PagamentoService pagamentoService;
 
     public List<PedidoResponseDTO> listAll(){
         return pedidoRepository.findAll().stream().map(PedidoResponseDTO::new).toList();
@@ -37,6 +43,8 @@ public class PedidoService {
         pedido.setPreco(valor);
 
         pedidoRepository.save(pedido);
+
+        pagamentoService.create(new PagamentoRequestDTO(pedido.getNome(),valor , pedido.getId()));
 
         return new PedidoResponseDTO(pedido);
     }
