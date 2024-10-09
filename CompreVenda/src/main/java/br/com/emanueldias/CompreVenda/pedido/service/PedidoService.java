@@ -6,6 +6,7 @@ import br.com.emanueldias.CompreVenda.pedido.model.Pedido;
 import br.com.emanueldias.CompreVenda.pedido.model.Status;
 import br.com.emanueldias.CompreVenda.pedido.repository.PedidoRepository;
 import br.com.emanueldias.CompreVenda.produto.dto.ProdutoRequestDTO;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,7 @@ public class PedidoService {
         return pedidoRepository.findAll().stream().map(PedidoResponseDTO::new).toList();
     }
 
+    @Transactional
     public PedidoResponseDTO create(PedidoRequestDTO dto){
         Pedido pedido = new Pedido(dto);
         pedido.getItens().forEach(p -> p.setPedido(pedido));
@@ -39,6 +41,7 @@ public class PedidoService {
         return new PedidoResponseDTO(pedido);
     }
 
+    @Transactional
     public PedidoResponseDTO cancelarPedido(Long id){
         Pedido pedido = pedidoRepository.getReferenceById(id);
 

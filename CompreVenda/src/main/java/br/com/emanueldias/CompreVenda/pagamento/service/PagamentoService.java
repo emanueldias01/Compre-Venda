@@ -5,6 +5,7 @@ import br.com.emanueldias.CompreVenda.pagamento.dto.PagamentoResponseDTO;
 import br.com.emanueldias.CompreVenda.pagamento.model.Pagamento;
 import br.com.emanueldias.CompreVenda.pagamento.model.Status;
 import br.com.emanueldias.CompreVenda.pagamento.repository.PagamentoRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +22,7 @@ public class PagamentoService {
         return pagamentoRepository.findAll().stream().map(PagamentoResponseDTO::new).toList();
     }
 
+    @Transactional
     public PagamentoResponseDTO create(@RequestBody PagamentoRequestDTO dto){
         Pagamento pagamento = new Pagamento(dto);
 
@@ -29,6 +31,7 @@ public class PagamentoService {
         return new PagamentoResponseDTO(pagamento);
     }
 
+    @Transactional
     public PagamentoResponseDTO cancelaPagamento(Long id){
         Pagamento pagamento = pagamentoRepository.getReferenceById(id);
         pagamento.setStatus(Status.CANCELADO);
@@ -38,6 +41,7 @@ public class PagamentoService {
         return new PagamentoResponseDTO(pagamento);
     }
 
+    @Transactional
     public PagamentoResponseDTO pagaPagamento(Long id){
         Pagamento pagamento = pagamentoRepository.getReferenceById(id);
         pagamento.setStatus(Status.PAGO);
