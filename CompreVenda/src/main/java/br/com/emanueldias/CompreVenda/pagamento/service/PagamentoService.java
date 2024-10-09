@@ -5,6 +5,8 @@ import br.com.emanueldias.CompreVenda.pagamento.dto.PagamentoResponseDTO;
 import br.com.emanueldias.CompreVenda.pagamento.model.Pagamento;
 import br.com.emanueldias.CompreVenda.pagamento.model.Status;
 import br.com.emanueldias.CompreVenda.pagamento.repository.PagamentoRepository;
+import br.com.emanueldias.CompreVenda.pedido.model.Pedido;
+import br.com.emanueldias.CompreVenda.pedido.repository.PedidoRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,9 @@ public class PagamentoService {
 
     @Autowired
     PagamentoRepository pagamentoRepository;
+
+    @Autowired
+    PedidoRepository pedidoRepository;
 
     public List<PagamentoResponseDTO> listAll(){
         return pagamentoRepository.findAll().stream().map(PagamentoResponseDTO::new).toList();
@@ -43,6 +48,10 @@ public class PagamentoService {
 
         pagamentoRepository.save(pagamento);
 
+        Pedido pedido = pedidoRepository.getReferenceById(pagamento.getPedidoId());
+
+        pedido.setStatus(br.com.emanueldias.CompreVenda.pedido.model.Status.CANCELADO);
+
         return new PagamentoResponseDTO(pagamento);
     }
 
@@ -50,6 +59,10 @@ public class PagamentoService {
     public PagamentoResponseDTO pagaPagamento(Long id){
         Pagamento pagamento = pagamentoRepository.getReferenceById(id);
         pagamento.setStatus(Status.PAGO);
+
+        Pedido pedido = pedidoRepository.getReferenceById(pagamento.getPedidoId());
+
+        pedido.setStatus(br.com.emanueldias.CompreVenda.pedido.model.Status.PAGO);
 
         pagamentoRepository.save(pagamento);
 
