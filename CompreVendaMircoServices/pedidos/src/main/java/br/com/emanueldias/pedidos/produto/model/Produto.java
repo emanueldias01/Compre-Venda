@@ -1,6 +1,7 @@
 package br.com.emanueldias.pedidos.produto.model;
 
 import br.com.emanueldias.pedidos.pedido.model.Pedido;
+import br.com.emanueldias.pedidos.produto.dto.ProdutoRequestDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -42,4 +43,10 @@ public class Produto {
     @JoinColumn(name = "pedido_id")
     private Pedido pedido;
 
+    public Produto(ProdutoRequestDTO dto) {
+        this.nome = dto.getNome();
+        this.descricao = dto.getDescricao();
+        this.quantidade = dto.getQuantidade();
+        this.preco = dto.getPreco();
+    }
 }
