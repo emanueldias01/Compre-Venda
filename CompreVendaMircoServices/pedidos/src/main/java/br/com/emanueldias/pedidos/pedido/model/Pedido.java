@@ -1,5 +1,6 @@
 package br.com.emanueldias.pedidos.pedido.model;
 
+import br.com.emanueldias.pedidos.pedido.dto.PedidoRequestDTO;
 import br.com.emanueldias.pedidos.produto.model.Produto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -38,4 +39,18 @@ public class Pedido {
 
     @NotNull
     private BigDecimal preco;
+
+    public void setPreco(@NotNull BigDecimal preco) {
+        this.preco = preco;
+    }
+
+    public void setStatus(@NotNull Status status) {
+        this.status = status;
+    }
+
+    public Pedido(PedidoRequestDTO dto) {
+        this.dataPedido = LocalDateTime.now();
+        this.nome = dto.getNome();
+        this.status = Status.REALIZADO;
+    }
 }
