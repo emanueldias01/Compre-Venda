@@ -33,4 +33,17 @@ public class PagamentoResponseDTO {
         this.status = pagamento.getStatus();
         this.pedidoId = pagamento.getPedidoId();
     }
+
+    @Override
+    public String toString() {
+        return "PagamentoResponseDTO{" +
+                "codigo='" + codigo + '\'' +
+                ", id=" + id +
+                ", valor=" + valor +
+                ", nome='" + nome + '\'' +
+                ", expiracao=" + expiracao +
+                ", status=" + status +
+                ", pedidoId=" + pedidoId +
+                '}';
+    }
 }
