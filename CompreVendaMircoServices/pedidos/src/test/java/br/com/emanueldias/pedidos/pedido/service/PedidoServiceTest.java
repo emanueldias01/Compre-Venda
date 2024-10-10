@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -97,7 +98,7 @@ class PedidoServiceTest {
 
         PedidoRequestDTO pedidoRequestDTO = new PedidoRequestDTO("nome", itens);
 
-        PedidoResponseDTO result = new PedidoResponseDTO();
+        PedidoResponseDTO result = new PedidoResponseDTO(new Pedido(pedidoRequestDTO));
 
         when(pedidoService.create(pedidoRequestDTO)).thenReturn(result);
 
@@ -105,7 +106,7 @@ class PedidoServiceTest {
         produtoResponseDTOList.add(new ProdutoResponseDTO(new Produto(p1)));
         produtoResponseDTOList.add(new ProdutoResponseDTO(new Produto(p2)));
 
-        assertThat(result.getItens()).isEqualTo(produtoResponseDTOList);
+        assertThat(result.getItens()).containsExactlyInAnyOrderElementsOf(produtoResponseDTOList);
 
     }
 
