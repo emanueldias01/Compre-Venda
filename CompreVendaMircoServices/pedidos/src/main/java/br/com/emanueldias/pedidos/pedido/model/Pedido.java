@@ -52,5 +52,6 @@ public class Pedido {
         this.dataPedido = LocalDateTime.now();
         this.nome = dto.getNome();
         this.status = Status.REALIZADO;
+        this.itens = dto.getItens().stream().map(Produto::new).toList();
     }
 }
