@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.com.emanueldias</groupId>
-	<artifactId>server</artifactId>
+	<artifactId>gateway</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>server</name>
-	<description>server-discovery da aplicação Compre&amp;Venda</description>
+	<name>gateway</name>
+	<description>gateway da aplicação Compre&amp;Venda</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -33,12 +33,17 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+			<artifactId>spring-cloud-starter-gateway</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.projectreactor</groupId>
+			<artifactId>reactor-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
