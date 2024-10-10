@@ -1,0 +1,2 @@
+ALTER TABLE tab_pedidos
+ADD COLUMN nome VARCHAR(100)
