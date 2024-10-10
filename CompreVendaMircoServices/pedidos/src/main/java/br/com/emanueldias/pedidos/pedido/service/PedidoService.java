@@ -24,6 +24,7 @@ public class PedidoService {
 
     public PedidoResponseDTO create(PedidoRequestDTO dto){
         Pedido pedido = new Pedido(dto);
+        pedido.getItens().forEach(p -> p.setPedido(pedido));
 
         BigDecimal valor = BigDecimal.ZERO;
 

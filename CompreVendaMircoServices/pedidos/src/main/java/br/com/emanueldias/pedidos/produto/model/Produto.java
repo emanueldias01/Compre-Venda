@@ -44,6 +44,10 @@ public class Produto {
     @JoinColumn(name = "pedido_id")
     private Pedido pedido;
 
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
+    }
+
     public Produto(ProdutoRequestDTO dto) {
         this.nome = dto.getNome();
         this.descricao = dto.getDescricao();

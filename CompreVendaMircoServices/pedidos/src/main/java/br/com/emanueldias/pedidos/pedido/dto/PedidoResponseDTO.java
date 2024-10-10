@@ -4,6 +4,7 @@ import br.com.emanueldias.pedidos.pedido.model.Pedido;
 import br.com.emanueldias.pedidos.pedido.model.Status;
 import br.com.emanueldias.pedidos.produto.dto.ProdutoResponseDTO;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@NoArgsConstructor
 public class PedidoResponseDTO {
     private Long id;
 
