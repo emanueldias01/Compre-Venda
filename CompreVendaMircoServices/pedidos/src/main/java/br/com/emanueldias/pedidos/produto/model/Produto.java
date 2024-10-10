@@ -2,6 +2,7 @@ package br.com.emanueldias.pedidos.produto.model;
 
 import br.com.emanueldias.pedidos.pedido.model.Pedido;
 import br.com.emanueldias.pedidos.produto.dto.ProdutoRequestDTO;
+import br.com.emanueldias.pedidos.produto.dto.ProdutoResponseDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -48,5 +49,13 @@ public class Produto {
         this.descricao = dto.getDescricao();
         this.quantidade = dto.getQuantidade();
         this.preco = dto.getPreco();
+    }
+
+
+    public Produto(ProdutoResponseDTO responseDTO) {
+        this.nome = responseDTO.getNome();
+        this.descricao = responseDTO.getDescricao();
+        this.quantidade = responseDTO.getQuantidade();
+        this.preco = responseDTO.getPreco();
     }
 }

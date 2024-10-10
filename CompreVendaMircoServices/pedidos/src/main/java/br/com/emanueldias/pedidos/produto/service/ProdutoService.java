@@ -8,6 +8,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+
 @Service
 public class ProdutoService {
 
@@ -15,7 +17,12 @@ public class ProdutoService {
     ProdutoRepository produtoRepository;
 
     @Transactional
-    public ProdutoResponseDTO create(ProdutoRequestDTO dto){
+    public ProdutoResponseDTO create(ProdutoRequestDTO dto) throws IllegalArgumentException {
+
+        if(dto.getNome() == null || dto.getQuantidade() == 0 || dto.getDescricao() == null || dto.getPreco() == null || dto.getPreco().equals(BigDecimal.ZERO)){
+            throw new IllegalArgumentException();
+        }
+
         Produto produto = new Produto(dto);
         produtoRepository.save(produto);
 
