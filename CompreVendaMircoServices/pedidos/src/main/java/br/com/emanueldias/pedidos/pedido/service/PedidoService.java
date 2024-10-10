@@ -41,6 +41,9 @@ public class PedidoService {
 
     public PedidoResponseDTO cancelaPedido(Long id){
         Pedido pedido = pedidoRepository.getReferenceById(id);
+        if(pedido.getStatus() == Status.CANCELADO || pedido.getStatus() == Status.PAGO){
+            throw new IllegalCallerException("Impossível cancelar um pedido já pago ou cancelado");
+        }
         pedido.setStatus(Status.CANCELADO);
         pedidoRepository.save(pedido);
 
@@ -49,6 +52,9 @@ public class PedidoService {
 
     public PedidoResponseDTO pagaPedido(Long id){
         Pedido pedido = pedidoRepository.getReferenceById(id);
+        if(pedido.getStatus() == Status.CANCELADO || pedido.getStatus() == Status.NAO_AUTORIZADO || pedido.getStatus() == Status.PAGO){
+            throw new IllegalCallerException("Impossível pagar um pedido cancelado, nao autorizado ou que ja está pago");
+        }
         pedido.setStatus(Status.PAGO);
         pedidoRepository.save(pedido);
 

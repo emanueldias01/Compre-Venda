@@ -154,4 +154,66 @@ class PedidoServiceTest {
 
         assertThat(pedido.getStatus()).isEqualTo(Status.CANCELADO);
     }
+
+    @Test
+    @DisplayName("Falha ao cancelar pedido por estar cancelado")
+    void cancelaPedidoFailPorJaCancelado(){
+
+
+        Pedido pedido = new Pedido(1L, LocalDateTime.now(), "nome", Status.CANCELADO, new ArrayList<>(), BigDecimal.TEN);
+
+        when(pedidoRepository.getReferenceById(pedido.getId())).thenReturn(pedido);
+
+        Assertions.assertThrows(IllegalCallerException.class, () -> pedidoService.cancelaPedido(pedido.getId()));
+    }
+
+    @Test
+    @DisplayName("Falha ao cancelar pedido por nao estar autorizado")
+    void cancelaPedidoFailPorNaoAutorizado(){
+
+
+        Pedido pedido = new Pedido(1L, LocalDateTime.now(), "nome", Status.PAGO, new ArrayList<>(), BigDecimal.TEN);
+
+        when(pedidoRepository.getReferenceById(pedido.getId())).thenReturn(pedido);
+
+        Assertions.assertThrows(IllegalCallerException.class, () -> pedidoService.cancelaPedido(pedido.getId()));
+    }
+
+    @Test
+    @DisplayName("Falha ao pagar pedido por nao estar autorizado")
+    void pagaPedidoFailPorNaoAutorizado(){
+
+
+        Pedido pedido = new Pedido(1L, LocalDateTime.now(), "nome", Status.NAO_AUTORIZADO, new ArrayList<>(), BigDecimal.TEN);
+
+        when(pedidoRepository.getReferenceById(pedido.getId())).thenReturn(pedido);
+
+        Assertions.assertThrows(IllegalCallerException.class, () -> pedidoService.pagaPedido(pedido.getId()));
+    }
+
+    @Test
+    @DisplayName("Falha ao pagar pedido por ja estar pago")
+    void pagaPedidoFailPorJaPago(){
+
+
+        Pedido pedido = new Pedido(1L, LocalDateTime.now(), "nome", Status.PAGO, new ArrayList<>(), BigDecimal.TEN);
+
+        when(pedidoRepository.getReferenceById(pedido.getId())).thenReturn(pedido);
+
+        Assertions.assertThrows(IllegalCallerException.class, () -> pedidoService.pagaPedido(pedido.getId()));
+    }
+
+    @Test
+    @DisplayName("Falha ao pagar pedido por ter sido cancelado")
+    void pagaPedidoFailPorCancelado(){
+
+
+        Pedido pedido = new Pedido(1L, LocalDateTime.now(), "nome", Status.CANCELADO, new ArrayList<>(), BigDecimal.TEN);
+
+        when(pedidoRepository.getReferenceById(pedido.getId())).thenReturn(pedido);
+
+        Assertions.assertThrows(IllegalCallerException.class, () -> pedidoService.pagaPedido(pedido.getId()));
+    }
+
+
 }

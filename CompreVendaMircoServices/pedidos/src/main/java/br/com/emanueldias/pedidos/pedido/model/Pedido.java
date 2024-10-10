@@ -44,6 +44,10 @@ public class Pedido {
         this.preco = preco;
     }
 
+    public void setItens(List<Produto> itens) {
+        this.itens = itens;
+    }
+
     public void setStatus(@NotNull Status status) {
         this.status = status;
     }
