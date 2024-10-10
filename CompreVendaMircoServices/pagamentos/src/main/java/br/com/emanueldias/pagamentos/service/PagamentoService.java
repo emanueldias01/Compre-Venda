@@ -35,6 +35,9 @@ public class PagamentoService {
 
     public PagamentoResponseDTO cancelaPagamento(Long id){
         Pagamento pagamento = pagamentoRepository.getReferenceById(id);
+        if(pagamento.getStatus() == Status.CANCELADO || pagamento.getStatus() == Status.PAGO){
+            throw new IllegalCallerException("Impossível cancelar um pagamento já cancelado ou pago");
+        }
         pagamento.setStatus(Status.CANCELADO);
 
         pagamentoRepository.save(pagamento);
@@ -44,6 +47,9 @@ public class PagamentoService {
 
     public PagamentoResponseDTO pagaPagamento(Long id){
         Pagamento pagamento = pagamentoRepository.getReferenceById(id);
+        if(pagamento.getStatus() == Status.PAGO || pagamento.getStatus() == Status.CANCELADO){
+            throw new IllegalCallerException("Impossível pagar um pagamento já cancelado ou pago");
+        }
         pagamento.setStatus(Status.PAGO);
 
         pagamentoRepository.save(pagamento);
