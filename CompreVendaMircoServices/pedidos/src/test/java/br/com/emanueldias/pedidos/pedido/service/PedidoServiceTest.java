@@ -1,6 +1,7 @@
 package br.com.emanueldias.pedidos.pedido.service;
 
 import br.com.emanueldias.pedidos.httpClient.PagamentoClient;
+import br.com.emanueldias.pedidos.httpClient.RequestCriaPagamento;
 import br.com.emanueldias.pedidos.pedido.dto.PedidoRequestDTO;
 import br.com.emanueldias.pedidos.pedido.dto.PedidoResponseDTO;
 import br.com.emanueldias.pedidos.pedido.model.Pedido;
@@ -26,6 +27,8 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 class PedidoServiceTest {
@@ -40,13 +43,13 @@ class PedidoServiceTest {
     PedidoService pedidoService;
 
     @BeforeEach
-    void setup(){
+    void setup() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
     @DisplayName("lista todos os pedidos")
-    void listPedidos(){
+    void listPedidos() {
 
         var dto1 = new PedidoRequestDTO("nome1", new ArrayList<>());
         var dto2 = new PedidoRequestDTO("nome2", new ArrayList<>());
@@ -65,17 +68,22 @@ class PedidoServiceTest {
 
     @Test
     @DisplayName("cria pedido")
-    void criaPedido(){
+    void criaPedido() {
         PedidoRequestDTO dto = new PedidoRequestDTO("nome", new ArrayList<>());
 
         Pedido pedido = new Pedido(dto);
 
-        when(pedidoService.create(dto)).thenReturn(new PedidoResponseDTO(pedido));
+        doNothing().when(pagamentoClient).criaPagamento(any(RequestCriaPagamento.class));
+
+        PedidoResponseDTO response = pedidoService.create(dto);
+
+        assertNotNull(response);
+        assertEquals(pedido.getNome(), response.getNome());
     }
 
     @Test
     @DisplayName("valida valor do pedido quando criado")
-    void validaValorDoPedido(){
+    void validaValorDoPedido() {
 
         List<ProdutoRequestDTO> itens = new ArrayList<>();
         var p1 = new ProdutoRequestDTO("nome", "desc", 1, new BigDecimal(10));
@@ -103,17 +111,17 @@ class PedidoServiceTest {
 
         PedidoRequestDTO pedidoRequestDTO = new PedidoRequestDTO("nome", itens);
 
-        PedidoResponseDTO result = new PedidoResponseDTO(new Pedido(pedidoRequestDTO));
+        doNothing().when(pagamentoClient).criaPagamento(any(RequestCriaPagamento.class));
 
-        when(pedidoService.create(pedidoRequestDTO)).thenReturn(result);
+        PedidoResponseDTO result = pedidoService.create(pedidoRequestDTO);
 
-        List<ProdutoResponseDTO> produtoResponseDTOList= new ArrayList<>();
+        List<ProdutoResponseDTO> produtoResponseDTOList = new ArrayList<>();
         produtoResponseDTOList.add(new ProdutoResponseDTO(new Produto(p1)));
         produtoResponseDTOList.add(new ProdutoResponseDTO(new Produto(p2)));
 
         assertThat(result.getItens()).containsExactlyInAnyOrderElementsOf(produtoResponseDTOList);
-
     }
+
 
     @Test
     @DisplayName("Valida metodo de pagar pedido")

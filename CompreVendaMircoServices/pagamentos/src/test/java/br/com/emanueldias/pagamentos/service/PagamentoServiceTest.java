@@ -2,6 +2,7 @@ package br.com.emanueldias.pagamentos.service;
 
 import br.com.emanueldias.pagamentos.dto.PagamentoRequestDTO;
 import br.com.emanueldias.pagamentos.dto.PagamentoResponseDTO;
+import br.com.emanueldias.pagamentos.httpClient.PedidoClient;
 import br.com.emanueldias.pagamentos.model.Pagamento;
 import br.com.emanueldias.pagamentos.model.Status;
 import br.com.emanueldias.pagamentos.repository.PagamentoRepository;
@@ -26,6 +27,9 @@ class PagamentoServiceTest {
 
     @Mock
     PagamentoRepository pagamentoRepository;
+
+    @Mock
+    PedidoClient pedidoClient;
 
     @InjectMocks
     PagamentoService pagamentoService;

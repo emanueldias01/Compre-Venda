@@ -2,6 +2,7 @@ package br.com.emanueldias.pagamentos.service;
 
 import br.com.emanueldias.pagamentos.dto.PagamentoRequestDTO;
 import br.com.emanueldias.pagamentos.dto.PagamentoResponseDTO;
+import br.com.emanueldias.pagamentos.httpClient.PedidoClient;
 import br.com.emanueldias.pagamentos.model.Pagamento;
 import br.com.emanueldias.pagamentos.model.Status;
 import br.com.emanueldias.pagamentos.repository.PagamentoRepository;
@@ -13,6 +14,9 @@ import java.util.Random;
 
 @Service
 public class PagamentoService {
+
+    @Autowired
+    PedidoClient pedidoClient;
 
     @Autowired
     PagamentoRepository pagamentoRepository;
@@ -53,6 +57,8 @@ public class PagamentoService {
         pagamento.setStatus(Status.PAGO);
 
         pagamentoRepository.save(pagamento);
+
+        pedidoClient.pagaPedido(pagamento.getPedidoId());
 
         return new PagamentoResponseDTO(pagamento);
     }
