@@ -1,5 +1,6 @@
 package br.com.emanueldias.pedidos.pedido.service;
 
+import br.com.emanueldias.pedidos.httpClient.PagamentoClient;
 import br.com.emanueldias.pedidos.pedido.dto.PedidoRequestDTO;
 import br.com.emanueldias.pedidos.pedido.dto.PedidoResponseDTO;
 import br.com.emanueldias.pedidos.pedido.model.Pedido;
@@ -15,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -30,6 +32,9 @@ class PedidoServiceTest {
 
     @Mock
     PedidoRepository pedidoRepository;
+
+    @Mock
+    PagamentoClient pagamentoClient;
 
     @InjectMocks
     PedidoService pedidoService;

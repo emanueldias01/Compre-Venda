@@ -1,5 +1,7 @@
 package br.com.emanueldias.pedidos.pedido.service;
 
+import br.com.emanueldias.pedidos.httpClient.PagamentoClient;
+import br.com.emanueldias.pedidos.httpClient.RequestCriaPagamento;
 import br.com.emanueldias.pedidos.pedido.dto.PedidoRequestDTO;
 import br.com.emanueldias.pedidos.pedido.dto.PedidoResponseDTO;
 import br.com.emanueldias.pedidos.pedido.model.Pedido;
@@ -14,6 +16,9 @@ import java.util.List;
 
 @Service
 public class PedidoService {
+
+    @Autowired
+    PagamentoClient pagamentoClient;
 
     @Autowired
     PedidoRepository pedidoRepository;
@@ -35,6 +40,8 @@ public class PedidoService {
         pedido.setPreco(valor);
 
         pedidoRepository.save(pedido);
+
+        pagamentoClient.criaPagamento(RequestCriaPagamento.fromPedido(pedido));
 
         return new PedidoResponseDTO(pedido);
     }

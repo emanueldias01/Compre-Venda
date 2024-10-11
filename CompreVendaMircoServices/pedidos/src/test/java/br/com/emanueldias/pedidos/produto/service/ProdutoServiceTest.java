@@ -1,5 +1,6 @@
 package br.com.emanueldias.pedidos.produto.service;
 
+import br.com.emanueldias.pedidos.httpClient.PagamentoClient;
 import br.com.emanueldias.pedidos.pedido.model.Pedido;
 import br.com.emanueldias.pedidos.produto.dto.ProdutoRequestDTO;
 import br.com.emanueldias.pedidos.produto.dto.ProdutoResponseDTO;
