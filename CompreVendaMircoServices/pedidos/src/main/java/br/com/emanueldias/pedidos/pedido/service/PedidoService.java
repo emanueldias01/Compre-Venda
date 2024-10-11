@@ -8,6 +8,7 @@ import br.com.emanueldias.pedidos.pedido.model.Pedido;
 import br.com.emanueldias.pedidos.pedido.model.Status;
 import br.com.emanueldias.pedidos.pedido.repository.PedidoRepository;
 import br.com.emanueldias.pedidos.produto.dto.ProdutoRequestDTO;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,7 @@ public class PedidoService {
         return pedidoRepository.findAll().stream().map(PedidoResponseDTO::new).toList();
     }
 
+    @Transactional
     public PedidoResponseDTO create(PedidoRequestDTO dto){
         Pedido pedido = new Pedido(dto);
         pedido.getItens().forEach(p -> p.setPedido(pedido));
@@ -46,6 +48,7 @@ public class PedidoService {
         return new PedidoResponseDTO(pedido);
     }
 
+    @Transactional
     public PedidoResponseDTO cancelaPedido(Long id){
         Pedido pedido = pedidoRepository.getReferenceById(id);
         if(pedido.getStatus() == Status.CANCELADO || pedido.getStatus() == Status.PAGO){
@@ -57,6 +60,7 @@ public class PedidoService {
         return new PedidoResponseDTO(pedido);
     }
 
+    @Transactional
     public PedidoResponseDTO pagaPedido(Long id){
         Pedido pedido = pedidoRepository.getReferenceById(id);
         if(pedido.getStatus() == Status.CANCELADO || pedido.getStatus() == Status.NAO_AUTORIZADO || pedido.getStatus() == Status.PAGO){

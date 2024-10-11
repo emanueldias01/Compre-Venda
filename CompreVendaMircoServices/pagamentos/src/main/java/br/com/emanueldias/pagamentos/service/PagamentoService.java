@@ -6,6 +6,7 @@ import br.com.emanueldias.pagamentos.httpClient.PedidoClient;
 import br.com.emanueldias.pagamentos.model.Pagamento;
 import br.com.emanueldias.pagamentos.model.Status;
 import br.com.emanueldias.pagamentos.repository.PagamentoRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,7 @@ public class PagamentoService {
         return pagamentoRepository.findAll().stream().map(PagamentoResponseDTO::new).toList();
     }
 
+    @Transactional
     public PagamentoResponseDTO create(PagamentoRequestDTO dto){
         Pagamento pagamento = new Pagamento(dto);
 
@@ -37,6 +39,7 @@ public class PagamentoService {
         return new PagamentoResponseDTO(pagamento);
     }
 
+    @Transactional
     public PagamentoResponseDTO cancelaPagamento(Long id){
         Pagamento pagamento = pagamentoRepository.getReferenceById(id);
         if(pagamento.getStatus() == Status.CANCELADO || pagamento.getStatus() == Status.PAGO){
@@ -49,6 +52,7 @@ public class PagamentoService {
         return new PagamentoResponseDTO(pagamento);
     }
 
+    @Transactional
     public PagamentoResponseDTO pagaPagamento(Long id){
         Pagamento pagamento = pagamentoRepository.getReferenceById(id);
         if(pagamento.getStatus() == Status.PAGO || pagamento.getStatus() == Status.CANCELADO){
