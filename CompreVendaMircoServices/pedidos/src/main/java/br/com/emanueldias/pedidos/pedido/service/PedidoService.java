@@ -56,6 +56,7 @@ public class PedidoService {
         }
         pedido.setStatus(Status.CANCELADO);
         pedidoRepository.save(pedido);
+        pagamentoClient.cancelaPagamento(pedido.getId());
 
         return new PedidoResponseDTO(pedido);
     }

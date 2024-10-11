@@ -1,6 +1,7 @@
 package br.com.emanueldias.pedidos.httpClient;
 
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -10,4 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public interface PagamentoClient {
     @RequestMapping(method = RequestMethod.POST, value = "/pagamentos-ms/pagamentos")
     void criaPagamento(@RequestBody RequestCriaPagamento req);
+
+    @RequestMapping(method = RequestMethod.PATCH, value = "/pagamentos-ms/pagamentos/cancela/{id}")
+    void cancelaPagamento(@PathVariable Long id);
 }

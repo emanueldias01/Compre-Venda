@@ -9,4 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public interface PedidoClient {
     @RequestMapping(method = RequestMethod.PATCH, value = "pedidos-ms/pedidos/pagar/{id}")
     void pagaPedido(@PathVariable Long id);
+
+    @RequestMapping(method = RequestMethod.PATCH, value = "pedidos-ms/pedidos/cancelar/{id}")
+    void cancelaPedido(@PathVariable Long id);
 }
