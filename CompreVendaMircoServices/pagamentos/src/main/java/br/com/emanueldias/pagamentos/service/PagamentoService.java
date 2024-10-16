@@ -77,9 +77,13 @@ public class PagamentoService {
 
         pagamentoRepository.save(pagamento);
 
-        Message message = new Message(("pagamento pago || id do pedido: " + pagamento.getPedidoId()).getBytes());
+        Message message = new Message("""
+                {
+                    "pedidoId":%s
+                }
+                """.formatted(pagamento.getPedidoId()).getBytes());
 
-        rabbitTemplate.send("pagamento.concluido", message);
+        rabbitTemplate.send("pagamento.aprovado", message);
 
         return new PagamentoResponseDTO(pagamento);
     }
