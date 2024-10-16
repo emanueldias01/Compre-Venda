@@ -18,9 +18,15 @@ public class AMQPConfiguration {
     }
 
     @Bean
-    public Queue criaQueue(){
+    public Queue criaQueuePagamentoConcluido(){
         return QueueBuilder.nonDurable("pagamento.concluido").build();
     }
+
+    @Bean
+    public Queue criaQueuePagamentoCancelado(){
+        return QueueBuilder.nonDurable("pagamento.cancelado").build();
+    }
+
 
     @Bean
     public ApplicationListener<ApplicationReadyEvent> inicializaAdmin(RabbitAdmin rabbitAdmin){
