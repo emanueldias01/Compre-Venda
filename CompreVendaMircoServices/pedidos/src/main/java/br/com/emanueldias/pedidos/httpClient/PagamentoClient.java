@@ -12,6 +12,6 @@ public interface PagamentoClient {
     @RequestMapping(method = RequestMethod.POST, value = "/pagamentos-ms/pagamentos")
     void criaPagamento(@RequestBody RequestCriaPagamento req);
 
-    @RequestMapping(method = RequestMethod.PATCH, value = "/pagamentos-ms/pagamentos/cancela/{id}")
+    @RequestMapping(method = RequestMethod.PUT, value = "/pagamentos-ms/pagamentos/cancela/{id}")
     void cancelaPagamento(@PathVariable Long id);
 }

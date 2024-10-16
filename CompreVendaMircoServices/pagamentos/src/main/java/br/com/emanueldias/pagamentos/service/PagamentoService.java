@@ -7,6 +7,8 @@ import br.com.emanueldias.pagamentos.model.Pagamento;
 import br.com.emanueldias.pagamentos.model.Status;
 import br.com.emanueldias.pagamentos.repository.PagamentoRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +19,10 @@ import java.util.Random;
 public class PagamentoService {
 
     @Autowired
-    PedidoClient pedidoClient;
+    PagamentoRepository pagamentoRepository;
 
     @Autowired
-    PagamentoRepository pagamentoRepository;
+    RabbitTemplate rabbitTemplate;
 
     public List<PagamentoResponseDTO> listAll(){
         return pagamentoRepository.findAll().stream().map(PagamentoResponseDTO::new).toList();
@@ -48,7 +50,10 @@ public class PagamentoService {
         pagamento.setStatus(Status.CANCELADO);
 
         pagamentoRepository.save(pagamento);
-        pedidoClient.cancelaPedido(pagamento.getPedidoId());
+
+        Message message = new Message(("pagamento cancelado || id do pedido: " + pagamento.getPedidoId()).getBytes());
+
+        rabbitTemplate.send("pagamento.cancelado", message);
 
         return new PagamentoResponseDTO(pagamento);
     }
@@ -63,7 +68,9 @@ public class PagamentoService {
 
         pagamentoRepository.save(pagamento);
 
-        pedidoClient.pagaPedido(pagamento.getPedidoId());
+        Message message = new Message(("pagamento pago || id do pedido: " + pagamento.getPedidoId()).getBytes());
+
+        rabbitTemplate.send("pagamento.concluido", message);
 
         return new PagamentoResponseDTO(pagamento);
     }

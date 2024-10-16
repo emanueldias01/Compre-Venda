@@ -32,12 +32,12 @@ public class PedidoController {
         return ResponseEntity.created(uri).body(pedido);
     }
 
-    @PatchMapping("/pagar/{id}")
+    @PutMapping("/pagar/{id}")
     public ResponseEntity<PedidoResponseDTO> pagaPedido(@PathVariable Long id){
         return ResponseEntity.ok(pedidoService.pagaPedido(id));
     }
 
-    @PatchMapping("/cancelar/{id}")
+    @PutMapping("/cancelar/{id}")
     public ResponseEntity<PedidoResponseDTO> cancelaPedido(@PathVariable Long id){
         return ResponseEntity.ok(pedidoService.cancelaPedido(id));
     }
