@@ -1,5 +1,6 @@
 package br.com.emanueldias.pedidos.pedido.service;
 
+import br.com.emanueldias.pedidos.config.PagamentoListener;
 import br.com.emanueldias.pedidos.httpClient.PagamentoClient;
 import br.com.emanueldias.pedidos.httpClient.RequestCriaPagamento;
 import br.com.emanueldias.pedidos.pedido.dto.PedidoRequestDTO;

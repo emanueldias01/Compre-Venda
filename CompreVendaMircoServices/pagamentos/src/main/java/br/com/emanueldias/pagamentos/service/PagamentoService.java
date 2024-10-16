@@ -69,7 +69,7 @@ public class PagamentoService {
         pagamentoRepository.save(pagamento);
 
         //pedidoClient.pagaPedido(pagamento.getPedidoId());
-        Message message = new Message(("pagamento pago || id : " + id.toString()).getBytes());
+        Message message = new Message(("pagamento pago || id do pedido: " + pagamento.getPedidoId()).getBytes());
 
         rabbitTemplate.send("pagamento.concluido", message);
 
