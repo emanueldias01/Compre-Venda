@@ -2,10 +2,10 @@ package br.com.emanueldias.pagamentos.service;
 
 import br.com.emanueldias.pagamentos.dto.PagamentoRequestDTO;
 import br.com.emanueldias.pagamentos.dto.PagamentoResponseDTO;
-import br.com.emanueldias.pagamentos.httpClient.PedidoClient;
 import br.com.emanueldias.pagamentos.model.Pagamento;
 import br.com.emanueldias.pagamentos.model.Status;
 import br.com.emanueldias.pagamentos.repository.PagamentoRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -42,8 +43,13 @@ public class PagamentoService {
     }
 
     @Transactional
-    public PagamentoResponseDTO cancelaPagamento(Long id){
-        Pagamento pagamento = pagamentoRepository.getReferenceById(id);
+    public PagamentoResponseDTO cancelaPagamento(Long pedidoId){
+        Optional<Pagamento> pagamentoRef = pagamentoRepository.buscaPedidoId(pedidoId);
+        if(pagamentoRef.isPresent()){
+            Pagamento pagamento = pagamentoRef.get();
+
+            System.out.println(pagamento.getId() + "  " + pagamento.getNome());
+
         if(pagamento.getStatus() == Status.CANCELADO || pagamento.getStatus() == Status.PAGO){
             throw new IllegalCallerException("Impossível cancelar um pagamento já cancelado ou pago");
         }
@@ -56,6 +62,9 @@ public class PagamentoService {
         rabbitTemplate.send("pagamento.cancelado", message);
 
         return new PagamentoResponseDTO(pagamento);
+        } else {
+            throw new EntityNotFoundException();
+        }
     }
 
     @Transactional

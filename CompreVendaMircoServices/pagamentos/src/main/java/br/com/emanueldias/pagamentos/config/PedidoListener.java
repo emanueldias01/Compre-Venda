@@ -23,4 +23,25 @@ public class PedidoListener {
 
         pagamentoService.create(dto);
     }
+
+    @RabbitListener(queues = "pedido.cancelado")
+    public void pedidoCanceladoListener(String s){
+
+        Long id = getPedidoId(s);
+
+        System.out.println(id);
+        pagamentoService.cancelaPagamento(id);
+    }
+
+    private Long getPedidoId(String s){
+        char[] charsParts = s.toCharArray();
+        String id = "";
+
+        for(char c : charsParts){
+            if(Character.isDigit(c)){
+                id = id.concat(String.valueOf(c));
+            }
+        }
+        return Long.parseLong(id);
+    }
 }

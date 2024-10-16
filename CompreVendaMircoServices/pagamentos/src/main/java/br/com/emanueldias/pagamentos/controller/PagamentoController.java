@@ -38,6 +38,6 @@ public class PagamentoController {
 
     @PutMapping("/cancela/{id}")
     public ResponseEntity<PagamentoResponseDTO> cancelaPagamento(@PathVariable Long id){
-        return ResponseEntity.ok(pagamentoService.pagaPagamento(id));
+        return ResponseEntity.ok(pagamentoService.cancelaPagamento(id));
     }
 }

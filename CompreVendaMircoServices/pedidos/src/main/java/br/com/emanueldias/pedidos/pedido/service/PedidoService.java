@@ -52,8 +52,8 @@ public class PedidoService {
         Message message = new Message("""
                 {
                     "nome":"%s",
-                    "valor":190,
-                    "pedidoId":36
+                    "valor":%s,
+                    "pedidoId":%s
                     }
                 
                 """.formatted(pedido.getNome(), pedido.getPreco(), pedido.getId()).getBytes());
