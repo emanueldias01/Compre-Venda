@@ -7,6 +7,8 @@ import br.com.emanueldias.pagamentos.model.Pagamento;
 import br.com.emanueldias.pagamentos.model.Status;
 import br.com.emanueldias.pagamentos.repository.PagamentoRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,9 @@ public class PagamentoService {
 
     @Autowired
     PagamentoRepository pagamentoRepository;
+
+    @Autowired
+    RabbitTemplate rabbitTemplate;
 
     public List<PagamentoResponseDTO> listAll(){
         return pagamentoRepository.findAll().stream().map(PagamentoResponseDTO::new).toList();
@@ -63,7 +68,10 @@ public class PagamentoService {
 
         pagamentoRepository.save(pagamento);
 
-        pedidoClient.pagaPedido(pagamento.getPedidoId());
+        //pedidoClient.pagaPedido(pagamento.getPedidoId());
+        Message message = new Message(("pagamento pago || id : " + id.toString()).getBytes());
+
+        rabbitTemplate.send("pagamento.concluido", message);
 
         return new PagamentoResponseDTO(pagamento);
     }
