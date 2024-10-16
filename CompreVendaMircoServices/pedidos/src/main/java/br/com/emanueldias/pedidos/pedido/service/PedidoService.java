@@ -71,7 +71,15 @@ public class PedidoService {
         }
         pedido.setStatus(Status.CANCELADO);
         pedidoRepository.save(pedido);
-        pagamentoClient.cancelaPagamento(pedido.getId());
+        //pagamentoClient.cancelaPagamento(pedido.getId());
+
+        Message message = new Message("""
+                {
+                "pedidoId":%s
+                }
+                """.formatted(pedido.getId()).getBytes());
+
+        rabbitTemplate.send("pedido.cancelado", message);
 
         return new PedidoResponseDTO(pedido);
     }

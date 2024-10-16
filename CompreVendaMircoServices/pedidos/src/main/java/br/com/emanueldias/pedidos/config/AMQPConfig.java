@@ -26,4 +26,9 @@ public class AMQPConfig {
     public Queue criaQueuePedidosCriados(){
         return QueueBuilder.nonDurable("pedido.criado").build();
     }
+
+    @Bean
+    public Queue criaQueuePedidosCancelados(){
+        return QueueBuilder.nonDurable("pedido.cancelado").build();
+    }
 }
