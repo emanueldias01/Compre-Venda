@@ -19,9 +19,6 @@ import java.util.Random;
 public class PagamentoService {
 
     @Autowired
-    PedidoClient pedidoClient;
-
-    @Autowired
     PagamentoRepository pagamentoRepository;
 
     @Autowired
@@ -53,7 +50,6 @@ public class PagamentoService {
         pagamento.setStatus(Status.CANCELADO);
 
         pagamentoRepository.save(pagamento);
-        //pedidoClient.cancelaPedido(pagamento.getPedidoId());
 
         Message message = new Message(("pagamento cancelado || id do pedido: " + pagamento.getPedidoId()).getBytes());
 
@@ -72,7 +68,6 @@ public class PagamentoService {
 
         pagamentoRepository.save(pagamento);
 
-        //pedidoClient.pagaPedido(pagamento.getPedidoId());
         Message message = new Message(("pagamento pago || id do pedido: " + pagamento.getPedidoId()).getBytes());
 
         rabbitTemplate.send("pagamento.concluido", message);
