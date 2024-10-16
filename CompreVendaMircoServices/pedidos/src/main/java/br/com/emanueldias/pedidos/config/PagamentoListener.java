@@ -13,6 +13,19 @@ public class PagamentoListener {
 
     @RabbitListener(queues = "pagamento.concluido")
     public void pagamentoConcluidoListener(String s){
+        Long pedidoId = getIdPedido(s);
+
+        pedidoService.pagaPedido(pedidoId);
+    }
+
+    @RabbitListener(queues = "pagamento.cancelado")
+    public void pagamentoCanceladoListener(String s){
+        Long pedidoId = getIdPedido(s);
+
+        pedidoService.cancelaPedido(pedidoId);
+    }
+
+    private Long getIdPedido(String s){
         char[] parts = s.toCharArray();
         String id = "";
         for(char c : parts){
@@ -20,8 +33,6 @@ public class PagamentoListener {
                 id = id.concat(String.valueOf(c));
             }
         }
-        Long pedidoId = Long.parseLong(id);
-
-        pedidoService.pagaPedido(pedidoId);
+        return Long.parseLong(id);
     }
 }
