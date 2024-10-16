@@ -55,6 +55,9 @@ public class PagamentoService {
         pagamentoRepository.save(pagamento);
         //pedidoClient.cancelaPedido(pagamento.getPedidoId());
 
+        Message message = new Message(("pagamento cancelado || id do pedido: " + pagamento.getPedidoId()).getBytes());
+
+        rabbitTemplate.send("pagamento.cancelado", message);
 
         return new PagamentoResponseDTO(pagamento);
     }
