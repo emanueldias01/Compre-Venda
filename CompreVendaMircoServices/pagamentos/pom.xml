@@ -84,6 +84,13 @@
 			<artifactId>spring-boot-starter-amqp</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
+			<version>2.17.2</version> <!-- Use a versão que você está utilizando -->
+		</dependency>
+
+
 	</dependencies>
 
 	<build>
