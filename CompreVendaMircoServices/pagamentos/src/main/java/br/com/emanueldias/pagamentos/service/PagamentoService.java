@@ -68,8 +68,11 @@ public class PagamentoService {
     }
 
     @Transactional
-    public PagamentoResponseDTO pagaPagamento(Long id){
-        Pagamento pagamento = pagamentoRepository.getReferenceById(id);
+    public PagamentoResponseDTO pagaPagamento(Long pedidoId){
+        Optional<Pagamento> pagamentoRef = pagamentoRepository.buscaPedidoId(pedidoId);
+        if(pagamentoRef.isPresent()){
+            Pagamento pagamento = pagamentoRef.get();
+
         if(pagamento.getStatus() == Status.PAGO || pagamento.getStatus() == Status.CANCELADO){
             throw new IllegalCallerException("Impossível pagar um pagamento já cancelado ou pago");
         }
@@ -86,5 +89,9 @@ public class PagamentoService {
         rabbitTemplate.send("pagamento.aprovado", message);
 
         return new PagamentoResponseDTO(pagamento);
+
+        } else {
+            throw new EntityNotFoundException();
+        }
     }
 }
