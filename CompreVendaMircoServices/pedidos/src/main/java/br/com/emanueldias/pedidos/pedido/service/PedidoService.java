@@ -9,6 +9,8 @@ import br.com.emanueldias.pedidos.pedido.model.Status;
 import br.com.emanueldias.pedidos.pedido.repository.PedidoRepository;
 import br.com.emanueldias.pedidos.produto.dto.ProdutoRequestDTO;
 import jakarta.transaction.Transactional;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,9 @@ public class PedidoService {
 
     @Autowired
     PedidoRepository pedidoRepository;
+
+    @Autowired
+    RabbitTemplate rabbitTemplate;
 
     public List<PedidoResponseDTO> listAll(){
         return pedidoRepository.findAll().stream().map(PedidoResponseDTO::new).toList();
@@ -43,7 +48,18 @@ public class PedidoService {
 
         pedidoRepository.save(pedido);
 
-        pagamentoClient.criaPagamento(RequestCriaPagamento.fromPedido(pedido));
+        //pagamentoClient.criaPagamento(RequestCriaPagamento.fromPedido(pedido));
+
+        Message message = new Message("""
+            {
+            "nome":%s,
+            "valor":%s,
+            "pedidoId":%s
+            }
+        
+        """.formatted(pedido.getNome(), pedido.getPreco(), pedido.getId()).getBytes());
+
+        rabbitTemplate.send("pedido.criado", message);
 
         return new PedidoResponseDTO(pedido);
     }
